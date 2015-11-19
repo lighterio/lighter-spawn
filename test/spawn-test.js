@@ -49,7 +49,7 @@ describe('spawn', function () {
   it('emits stderr content', function (done) {
     spawn('ls NOPE')
       .on('stderr', function (data) {
-        is(data, 'ls: NOPE: No such file or directory\n')
+        is.in(data, 'No such file or directory')
         done()
       })
   })
@@ -62,7 +62,7 @@ describe('spawn', function () {
         is(detail.execPath, 'ls')
         is.same(detail.args, ['NOPE'])
         is(detail.options, options)
-        is(detail.exitCode, 1)
+        is.greater(detail.exitCode, 0)
         done()
       })
   })
@@ -71,7 +71,8 @@ describe('spawn', function () {
     var options = {}
     spawn('ls NOPE', options)
       .on('err', function (lines) {
-        is.same(lines, ['ls: NOPE: No such file or directory'])
+        is.in(lines[0], 'No such file or directory')
+        is(lines.length, 1)
       })
       .on('out', function (lines) {
         is.same(lines, [])

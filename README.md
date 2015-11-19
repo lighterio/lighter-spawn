@@ -15,7 +15,16 @@ npm install --save lighter-spawn
 ```
 
 ## API
-The API is simply a function.
+The API is simply a function which returns a child process.
+```js
+var spawn = require('lighter-spawn')
+
+// Write file details to the console.
+spawn('ls -la')
+  .on('out', function (files) {
+    console.log(files)
+  })
+```
 
 ### spawn(command[, options])
 Spawn a command, and return a child process object. The command is a string,
